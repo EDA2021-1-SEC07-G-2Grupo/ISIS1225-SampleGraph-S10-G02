@@ -31,6 +31,7 @@ import threading
 from App import controller
 from DISClib.ADT import stack
 assert config
+import time
 
 """
 La vista se encarga de la interacción con el usuario.
@@ -44,7 +45,7 @@ operación seleccionada.
 # ___________________________________________________
 
 
-servicefile = 'bus_routes_14000.csv'
+servicefile = 'bus_routes_2000.csv'
 initialStation = None
 
 # ___________________________________________________
@@ -83,6 +84,7 @@ def optionThree(cont):
 
 
 def optionFour(cont, initialStation):
+   
     controller.minimumCostPaths(cont, initialStation)
 
 
@@ -103,14 +105,14 @@ def optionSix(cont, destStation):
             print(stop)
     else:
         print('No hay camino')
+   
 
 
 def optionSeven(cont):
     maxvert, maxdeg = controller.servedRoutes(cont)
     print('Estación: ' + maxvert + '  Total rutas servidas: '
           + str(maxdeg))
-
-
+   
 """
 Menu principal
 """
@@ -135,7 +137,9 @@ def thread_cycle():
         elif int(inputs[0]) == 4:
             msg = "Estación Base: BusStopCode-ServiceNo (Ej: 75009-10): "
             initialStation = input(msg)
+            start_time = time.process_time()
             optionFour(cont, initialStation)
+            print(optionFour)
 
         elif int(inputs[0]) == 5:
             destStation = input("Estación destino (Ej: 15151-10): ")
@@ -144,6 +148,9 @@ def thread_cycle():
         elif int(inputs[0]) == 6:
             destStation = input("Estación destino (Ej: 15151-10): ")
             optionSix(cont, destStation)
+            stop_time = time.process_time()
+            elapsed_time_mseg = (stop_time - start_time)*1000
+            print(elapsed_time_mseg)
 
         elif int(inputs[0]) == 7:
             optionSeven(cont)
@@ -158,3 +165,7 @@ if __name__ == "__main__":
     sys.setrecursionlimit(2 ** 20)
     thread = threading.Thread(target=thread_cycle)
     thread.start()
+
+
+
+"""75009-10   15151-10"""
